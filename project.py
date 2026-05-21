@@ -2,7 +2,7 @@ import pygame
 import sys
 import random 
 
-speed = 13
+speed = 12
 snake_position=[100, 50]
 snake_body=[[100, 50], [90, 50], [80, 50]]
 running = True
@@ -15,12 +15,12 @@ def main():
     global speed
     global direction
     pygame.init()
-    screen = pygame.display.set_mode((800, 600), pygame.SCALED | pygame.RESIZABLE)
+    screen = pygame.display.set_mode((700, 500), pygame.SCALED | pygame.RESIZABLE)
     pygame.display.set_caption("Snake Game")
     clock = pygame.time.Clock()
 
 
-    food_position=[random.randrange(1, 80)*10, random.randrange(1, 60)*10]
+    food_position=[random.randrange(1, 70)*10, random.randrange(1, 50)*10]
     food_spawn=True 
     score = 0
   
@@ -28,7 +28,6 @@ def main():
 
 
     while running:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -67,21 +66,21 @@ def main():
         # eating food
         if snake_position == food_position:
             food_spawn = False  
-            score +=10
-            speed = speed_update(score)
+            score += 10
+            speed = speed_update(score,speed)
         else:
             snake_body.pop()
         snake_body.insert(0,list(snake_position))
 
         if not food_spawn:
-            food_position = [random.randrange(1, 80)*10, random.randrange(1, 60)*10]
+            food_position = [random.randrange(1, 70)*10, random.randrange(1, 50)*10]
             food_spawn = True
         
         for pos in snake_body:
             pygame.draw.rect(screen, "green", pygame.Rect(*pos, 10, 10))
         
 
-        running = is_game_running(running)
+        running = is_game_running(snake_position, snake_body)
         pygame.display.flip()
         clock.tick(speed) 
 
@@ -102,23 +101,19 @@ def keydirection(keys):
     return direction
 
 
-def speed_update(score):
-        global speed
-        if score == 80:
+def speed_update(score,speed):
+        if score == 50:
             return speed + 2
-        elif score == 150:
+        elif score == 100:
             return speed + 4
-        elif score == 200:
-            return speed + 6
-        elif score == 250:
-            return speed + 8
+        elif score == 170:
+            return speed + 4
+        elif score == 230:
+            return speed + 2
         return speed
 
-
-def is_game_running(running):
-    global snake_position
-    global snake_body
-    if snake_position[0] < 0 or snake_position[0] > 790 or snake_position[1] < 0 or snake_position[1] > 590:
+def is_game_running(snake_position, snake_body):
+    if snake_position[0] < 10 or snake_position[0] > 690 or snake_position[1] < 10 or snake_position[1] > 490:
         return False 
     
     for block in snake_body[1:]:
