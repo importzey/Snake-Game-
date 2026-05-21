@@ -2,18 +2,15 @@ import pygame
 import sys
 import random 
 
-speed = 12
-snake_position=[100, 50]
-snake_body=[[100, 50], [90, 50], [80, 50]]
-running = True
 direction='RIGHT'
 new_direction=direction
+
 def main():
-    global running
-    global snake_position
-    global snake_body
     global speed
     global direction
+    speed = 12
+    snake_position=[100, 50]
+    snake_body=[[100, 50], [90, 50], [80, 50]]
     pygame.init()
     screen = pygame.display.set_mode((700, 500), pygame.SCALED | pygame.RESIZABLE)
     pygame.display.set_caption("Snake Game")
@@ -26,7 +23,7 @@ def main():
   
 
 
-
+    running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
