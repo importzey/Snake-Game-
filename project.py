@@ -3,7 +3,7 @@ import sys
 import random 
 import cowsay
 
-direction='RIGHT'
+direction="RIGHT"
 new_direction=direction
 
 def main():
@@ -11,25 +11,25 @@ def main():
     
     snake_head_pos=[100, 50]
     snake_body=[[100, 50], [90, 50], [80, 50]]
-    speed = 12
+    speed=12
 
     #creating screen 
     pygame.init()
     screen = pygame.display.set_mode((700, 500), pygame.SCALED | pygame.RESIZABLE)
     pygame.display.set_caption("Snake Game")
-    clock = pygame.time.Clock()
+    clock= pygame.time.Clock()
 
     food_position=[random.randrange(1, 70)*10, random.randrange(1, 50)*10] 
     food_spawn=True  # for checking if there is already food or not
     score_list=[]
-    score = 0
+    score=0
   
 
-    running = True
+    running=True
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+            if event.type==pygame.QUIT:
+                running=False
 
         screen.fill("black")
         #showing score on screen
@@ -39,46 +39,46 @@ def main():
         screen.blit(score_surface, score_rect)
 
         # draw food and snake
-        pygame.draw.rect(screen, "red", (*food_position, 10, 10))
-        pygame.draw.rect(screen, "green", (*snake_head_pos, 10, 10))
+        pygame.draw.rect(screen,"red", (*food_position, 10, 10))
+        pygame.draw.rect(screen,"green", (*snake_head_pos, 10, 10))
 
         # get key direction
         keys = pygame.key.get_pressed()
         new_direction = keydirection(keys)
 
         # stop snake to go opposite direction
-        if new_direction == 'UP' and direction != 'DOWN':
-            direction = new_direction
-        if new_direction == 'DOWN' and direction != 'UP':
-            direction = new_direction
-        if new_direction == 'LEFT' and direction != 'RIGHT':
-            direction = new_direction   
-        if new_direction == 'RIGHT' and direction != 'LEFT':
-            direction = new_direction
+        if new_direction=="UP" and direction!="DOWN":
+            direction=new_direction
+        if new_direction=="DOWN" and direction!="UP":
+            direction=new_direction
+        if new_direction=="LEFT" and direction!="RIGHT":
+            direction=new_direction   
+        if new_direction=="RIGHT" and direction!="LEFT":
+            direction=new_direction
 
         # moving
-        if direction == 'UP':
-            snake_head_pos[1] -= 10     
-        if direction == 'DOWN':
-            snake_head_pos[1] += 10
-        if direction == 'LEFT':
-            snake_head_pos[0] -= 10
-        if direction == 'RIGHT':
-            snake_head_pos[0] += 10
+        if direction=="UP":
+            snake_head_pos[1]-=10     
+        if direction=="DOWN":
+            snake_head_pos[1]+=10
+        if direction=="LEFT":
+            snake_head_pos[0]-=10
+        if direction=="RIGHT":
+            snake_head_pos[0]+=10
 
         # eating food
         if snake_head_pos== food_position:
-            food_spawn = False  
-            score += 10
-            speed = speed_update(score,speed)
+            food_spawn= False  
+            score +=10
+            speed=speed_update(score,speed)
         else:
             snake_body.pop()   # if food is eaten no need to remove tail which simulate snake moving
         snake_body.insert(0,list(snake_head_pos))   # adding new head to first index of body
 
         #spawn food
         if not food_spawn:
-            food_position = [random.randrange(1, 70)*10, random.randrange(1, 50)*10]
-            food_spawn = True
+            food_position=[random.randrange(1, 70)*10, random.randrange(1, 50)*10]
+            food_spawn=True
 
         # draw snake
         for block in snake_body:
@@ -89,14 +89,16 @@ def main():
         
         pygame.display.flip()
         clock.tick(speed) 
-    
+    #writing all scores in txt file and printing the max
     with open("scores.txt", "a") as file:
         file.write(f"{score}\n")
     with open("scores.txt", "r") as file:
-        lines = file.readlines()
+        lines= file.readlines()
         for score in lines:
             print(score_list.append(score))
-    cowsay.cow(f"Your record is: {max(score_list)}")
+    print(cowsay.char_names)
+    cowsay.cow(f"Your maximum score is: {max(score_list)}")
+
     pygame.quit()
     sys.exit()
 
@@ -116,25 +118,25 @@ def keydirection(keys):
 
 def speed_update(score,speed):
         
-        if score == 50:
-            return speed + 2
-        elif score == 100:
-            return speed + 4
-        elif score == 170:
-            return speed + 4
-        elif score == 230:
-            return speed + 2
+        if score==50:
+            return speed+2
+        elif score==100:
+            return speed+4
+        elif score==170:
+            return speed+4
+        elif score==230:
+            return speed+2
         return speed
 
 def is_game_running(snake_head_pos, snake_body):
 
     #if collide with screen's border
-    if snake_head_pos[0] < 10 or snake_head_pos[0] > 690 or snake_head_pos[1] < 10 or snake_head_pos[1] > 490:
+    if snake_head_pos[0]<10 or snake_head_pos[0]>690 or snake_head_pos[1]<10 or snake_head_pos[1]>490:
         return False 
     
     # if head touch body
     for block in snake_body[1:]:
-        if snake_head_pos == block:
+        if snake_head_pos==block:
             return False
     return True
 
