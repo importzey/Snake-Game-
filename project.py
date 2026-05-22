@@ -6,22 +6,19 @@ direction='RIGHT'
 new_direction=direction
 
 def main():
-    global speed
     global direction
-    speed = 12
-    snake_position=[100, 50]
+    
+    snake_head_pos=[100, 50]
     snake_body=[[100, 50], [90, 50], [80, 50]]
+    speed = 12
     pygame.init()
     screen = pygame.display.set_mode((700, 500), pygame.SCALED | pygame.RESIZABLE)
     pygame.display.set_caption("Snake Game")
     clock = pygame.time.Clock()
-
-
     food_position=[random.randrange(1, 70)*10, random.randrange(1, 50)*10]
     food_spawn=True 
     score = 0
   
-
 
     running = True
     while running:
@@ -31,13 +28,16 @@ def main():
 
         screen.fill("black")
         
-        score_font = pygame.font.SysFont("Arial", 24)
-        score_surface = score_font.render(f'Score: {score}', True, "white")
+        score_font = pygame.font.SysFont("Arial", 25)
+        score_surface = score_font.render(f"Score: {score}", True, "white")
         score_rect = score_surface.get_rect()
         screen.blit(score_surface, score_rect)
 
+        # draw food and snake
         pygame.draw.rect(screen, "red", (*food_position, 10, 10))
-        pygame.draw.rect(screen, "green", (*snake_position, 10, 10))
+        pygame.draw.rect(screen, "green", (*snake_head_pos, 10, 10))
+
+        # get key direction
         keys = pygame.key.get_pressed()
         new_direction = keydirection(keys)
 
@@ -50,34 +50,38 @@ def main():
             direction = new_direction   
         if new_direction == 'RIGHT' and direction != 'LEFT':
             direction = new_direction
+
         # moving
         if direction == 'UP':
-            snake_position[1] -= 10     
+            snake_head_pos[1] -= 10     
         if direction == 'DOWN':
-            snake_position[1] += 10
+            snake_head_pos[1] += 10
         if direction == 'LEFT':
-            snake_position[0] -= 10
+            snake_head_pos[0] -= 10
         if direction == 'RIGHT':
-            snake_position[0] += 10
+            snake_head_pos[0] += 10
 
         # eating food
-        if snake_position == food_position:
+        if snake_head_pos== food_position:
             food_spawn = False  
             score += 10
             speed = speed_update(score,speed)
         else:
             snake_body.pop()
-        snake_body.insert(0,list(snake_position))
+        snake_body.insert(0,list(snake_head_pos))
 
+        #spawn food
         if not food_spawn:
             food_position = [random.randrange(1, 70)*10, random.randrange(1, 50)*10]
             food_spawn = True
-        
+
+        # draw snake
         for pos in snake_body:
             pygame.draw.rect(screen, "green", pygame.Rect(*pos, 10, 10))
         
-
-        running = is_game_running(snake_position, snake_body)
+        #is game over or not 
+        running = is_game_running(snake_head_pos, snake_body)
+        
         pygame.display.flip()
         clock.tick(speed) 
 
@@ -109,12 +113,12 @@ def speed_update(score,speed):
             return speed + 2
         return speed
 
-def is_game_running(snake_position, snake_body):
-    if snake_position[0] < 10 or snake_position[0] > 690 or snake_position[1] < 10 or snake_position[1] > 490:
+def is_game_running(snake_head_pos, snake_body):
+    if snake_head_pos[0] < 10 or snake_head_pos[0] > 690 or snake_head_pos[1] < 10 or snake_head_pos[1] > 490:
         return False 
     
     for block in snake_body[1:]:
-        if snake_position == block:
+        if snake_head_pos == block:
             return False
     return True
 
