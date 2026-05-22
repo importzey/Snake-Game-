@@ -2,3 +2,4 @@ pygame
 random
 sys
 pytest
+cowsay

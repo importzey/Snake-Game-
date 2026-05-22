@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random 
+import cowsay
 
 direction='RIGHT'
 new_direction=direction
@@ -11,12 +12,16 @@ def main():
     snake_head_pos=[100, 50]
     snake_body=[[100, 50], [90, 50], [80, 50]]
     speed = 12
+
+    #creating screen 
     pygame.init()
     screen = pygame.display.set_mode((700, 500), pygame.SCALED | pygame.RESIZABLE)
     pygame.display.set_caption("Snake Game")
     clock = pygame.time.Clock()
-    food_position=[random.randrange(1, 70)*10, random.randrange(1, 50)*10]
-    food_spawn=True 
+
+    food_position=[random.randrange(1, 70)*10, random.randrange(1, 50)*10] 
+    food_spawn=True  # for checking if there is already food or not
+    score_list=[]
     score = 0
   
 
@@ -27,7 +32,7 @@ def main():
                 running = False
 
         screen.fill("black")
-        
+        #showing score on screen
         score_font = pygame.font.SysFont("Arial", 25)
         score_surface = score_font.render(f"Score: {score}", True, "white")
         score_rect = score_surface.get_rect()
@@ -67,8 +72,8 @@ def main():
             score += 10
             speed = speed_update(score,speed)
         else:
-            snake_body.pop()
-        snake_body.insert(0,list(snake_head_pos))
+            snake_body.pop()   # if food is eaten no need to remove tail which simulate snake moving
+        snake_body.insert(0,list(snake_head_pos))   # adding new head to first index of body
 
         #spawn food
         if not food_spawn:
@@ -76,15 +81,22 @@ def main():
             food_spawn = True
 
         # draw snake
-        for pos in snake_body:
-            pygame.draw.rect(screen, "green", pygame.Rect(*pos, 10, 10))
+        for block in snake_body:
+            pygame.draw.rect(screen, "green", pygame.Rect(*block, 10, 10))
         
         #is game over or not 
         running = is_game_running(snake_head_pos, snake_body)
         
         pygame.display.flip()
         clock.tick(speed) 
-
+    
+    with open("scores.txt", "a") as file:
+        file.write(f"{score}\n")
+    with open("scores.txt", "r") as file:
+        lines = file.readlines()
+        for score in lines:
+            print(score_list.append(score))
+    cowsay.cow(f"Your record is: {max(score_list)}")
     pygame.quit()
     sys.exit()
 
@@ -103,6 +115,7 @@ def keydirection(keys):
 
 
 def speed_update(score,speed):
+        
         if score == 50:
             return speed + 2
         elif score == 100:
@@ -114,9 +127,12 @@ def speed_update(score,speed):
         return speed
 
 def is_game_running(snake_head_pos, snake_body):
+
+    #if collide with screen's border
     if snake_head_pos[0] < 10 or snake_head_pos[0] > 690 or snake_head_pos[1] < 10 or snake_head_pos[1] > 490:
         return False 
     
+    # if head touch body
     for block in snake_body[1:]:
         if snake_head_pos == block:
             return False
