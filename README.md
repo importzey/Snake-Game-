@@ -1,4 +1,4 @@
-# SNAKE GAME
+# SNAKE GAME 🐍
 #### **Video Demo:** [()]
 ## A simple snake game using Pygame library in Python
 ### Project Overview
@@ -45,6 +45,7 @@ All used libraries in **requirements.txt** can be installed via this pip command
 ### Usage
 If installation part is complete, it remains to run the program with command line:\
 `python project.py`\
-Enjoy the game!
+
+  Enjoy the game! 🎮🐍
 
 
