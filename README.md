@@ -1,8 +1,8 @@
 # SNAKE GAME 🐍
-#### **Video Demo:** [()]
+#### **Video Demo:** [Click Here](https://youtu.be/P_MLnK34niE?si=NPqM_Q4Q61G8kn_V)
 ## A simple snake game using Pygame library in Python
 ### Project Overview
-As in classic Snake game, when the game starts, snake goes right. User can change direction of snake with keyboard. Food spawns in random position. When snake eats food, its body grows. Score continuously appear in left corner of the screen. As score increasing, the speed of snake also increases. When snake touches any border of screen or its own body, game is over and, ultimately, in terminal window user can see their maximum score of all played games.
+As in classic Snake game, when the game starts, snake goes right. User can change direction of snake with keyboard. Food spawns in random position. When snake eats food, its body grows and score increases. Score continuously appear in left corner of the screen. As score increasing, the speed of snake also increases. When snake touches any border of screen or its own body, game is over and, ultimately, in terminal window user can see their maximum score of all played games.
 ## Features:
 * move snake 
 * food spawning
@@ -31,7 +31,7 @@ The main package consists of the following files:
 
 ### 2.**test_project.py** includes unit tests for 3 corresponding function of project.py
 - `test_keydirection()` checks if direction is correct when key pressed 
-- `test_speed_update()` checks if speed is correct in arbitrary score
+- `test_speed_update()` checks if speed is correct in some arbitrary score
 - `test_is_game_running()` checks if collision detection works properly
 
 ### 3.**requirements.txt** includes all libraries used
@@ -44,7 +44,7 @@ All used libraries in **requirements.txt** can be installed via this pip command
 `pip install -r requirements.txt`
 ### Usage
 If installation part is complete, it remains to run the program with command line:\
-`python project.py`\
+`python project.py`
 
   Enjoy the game! 🎮🐍
 
