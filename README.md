@@ -1,4 +1,4 @@
-# SNAKE GAME 🐍
+# Snake Game 🐍
 ## A simple snake game using Pygame library in Python
 ### Project Overview
 As in classic Snake game, when the game starts, snake goes right. User can change direction of snake with keyboard. Food spawns in random position. When snake eats food, its body grows and score increases. Score continuously appear in left corner of the screen. As score increasing, the speed of snake also increases. When snake touches any border of screen or its own body, game is over and, ultimately, in terminal window user can see their maximum score of all played games.
